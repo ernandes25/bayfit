@@ -64,6 +64,7 @@ class TimerFragment : Fragment() {
         timerStarted = true
     }
 
+
     private fun stopTimer() {
         requireActivity().stopService(serviceIntent)
         binding.controlButton.setImageResource(R.drawable.ic_continue)
