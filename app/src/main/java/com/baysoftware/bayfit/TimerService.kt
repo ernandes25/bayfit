@@ -3,13 +3,19 @@ package com.baysoftware.bayfit
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import java.util.*
+import java.util.Timer
 import java.util.TimerTask
 
-class TimerService : Service() {
+abstract class TimerService : Service() {
+
+    abstract fun getTimeValue(time: Double): Double
+
+    abstract fun getTimerIntent(): Intent
+
     override fun onBind(p0: Intent): IBinder? = null
 
     private val timer = Timer()
+
     override fun onStartCommand(intent: Intent, flags: Int, startID: Int): Int {
         val time = intent.getDoubleExtra(TIME_EXTRA, 0.0)
         timer.scheduleAtFixedRate(TimeTask(time), 0, 1000)
@@ -23,15 +29,14 @@ class TimerService : Service() {
 
     private inner class TimeTask(private var time: Double) : TimerTask() {
         override fun run() {
-            val intent = Intent(TIMER_UPDATE)
-            time++
+            val intent = getTimerIntent()
+            time = getTimeValue(time)
             intent.putExtra(TIME_EXTRA, time)
             sendBroadcast(intent)
         }
     }
 
     companion object {
-        const val TIMER_UPDATE = "timerUpdated"
         const val TIME_EXTRA = "timeExtra"
     }
 }

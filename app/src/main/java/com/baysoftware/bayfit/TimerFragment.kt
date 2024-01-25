@@ -20,21 +20,29 @@ import kotlin.math.roundToInt
 class TimerFragment : Fragment() {
 
     private lateinit var binding: FragmentTimerBinding
-    private lateinit var serviceIntent: Intent
-    private var time = 0.0
+    private lateinit var increasingTimerServiceIntent: Intent
+    private lateinit var decreasingTimerServiceIntent: Intent
+    private var increasingTime = 0.0
+    private var decreasingTime = 10.0
     private var timerStarted = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
-        serviceIntent = Intent(requireContext(), TimerService::class.java)
+
+        increasingTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
+        increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
+        decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
+        decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
+
         registerReceiver(
             requireContext(),
-            updateTime,
-            IntentFilter(TimerService.TIMER_UPDATE),
+            updateIncreasingTime,
+            IntentFilter(IncreasingTimerService.TIMER_UPDATE),
             RECEIVER_NOT_EXPORTED
         )
+
         return binding.root
     }
 
@@ -45,17 +53,17 @@ class TimerFragment : Fragment() {
         //TODO: Implementar navegação para tela final usando a alinha baixo.
         // binding.controlButtonRest.setOnLongClickListener { resetTimer() }
 
-        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
-        requireActivity().startService(serviceIntent)
+        requireActivity().startService(increasingTimerServiceIntent)
     }
 
     private fun pauseTimer() {
         timerStarted = false
-        binding.resumeButton.isVisible = true
+        startDecreasingTimer()
+
+        binding.textRest.isVisible = true
         binding.pauseButton.isVisible = false
 
         binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
-        // binding.primaryTimer.text = "00:00:00" // TODO: iniciar contador decrescente
 
         binding.secondaryTimer.isInvisible = false
         binding.secondaryTimer.text = binding.primaryTimer.text
@@ -63,6 +71,8 @@ class TimerFragment : Fragment() {
 
     private fun resumeTraining() {
         timerStarted = true
+        requireActivity().stopService(decreasingTimerServiceIntent)
+
         binding.resumeButton.isVisible = false
         binding.pauseButton.isVisible = true
 
@@ -72,21 +82,44 @@ class TimerFragment : Fragment() {
         binding.secondaryTimer.isInvisible = true
     }
 
+    private fun startDecreasingTimer() {
+        registerReceiver(
+            requireContext(),
+            updateDecreasingTime,
+            IntentFilter(DecreasingTimerService.TIMER_UPDATE),
+            RECEIVER_NOT_EXPORTED
+        )
+        requireActivity().startService(decreasingTimerServiceIntent)
+    }
+
     // TODO: este método será utilizado quando o usuário finalizar o treino
     @Suppress("unused")
     private fun stopTimer() {
-        requireActivity().stopService(serviceIntent)
+        requireActivity().stopService(increasingTimerServiceIntent)
         timerStarted = false
     }
 
-    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
+    private val updateIncreasingTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+            increasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+            val time = getTimeStringFromDouble(increasingTime)
             if (timerStarted) {
-                binding.primaryTimer.text = getTimeStringFromDouble(time)
+                binding.primaryTimer.text = time
             } else {
-                binding.secondaryTimer.text = getTimeStringFromDouble(time)
+                binding.secondaryTimer.text = time
             }
+        }
+    }
+
+    private val updateDecreasingTime: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            decreasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+            if (decreasingTime == 0.0) {
+                // TODO: parar tempo (chamar métodos "stopService" e possivelmente "unregisterReceiver")
+                // TODO: esconder "Descanso"
+                // TODO: mostrar botão play verde
+            }
+            binding.primaryTimer.text = getTimeStringFromDouble(decreasingTime)
         }
     }
 
