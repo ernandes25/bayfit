@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
+import androidx.core.content.getSystemService
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -23,14 +26,13 @@ class TimerFragment : Fragment() {
     private lateinit var increasingTimerServiceIntent: Intent
     private lateinit var decreasingTimerServiceIntent: Intent
     private var increasingTime = 0.0
-    private var decreasingTime = 10.0
+    private var decreasingTime = 5.0
     private var timerStarted = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
-
         increasingTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
         increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
@@ -42,7 +44,6 @@ class TimerFragment : Fragment() {
             IntentFilter(IncreasingTimerService.TIMER_UPDATE),
             RECEIVER_NOT_EXPORTED
         )
-
         return binding.root
     }
 
@@ -56,15 +57,22 @@ class TimerFragment : Fragment() {
         requireActivity().startService(increasingTimerServiceIntent)
     }
 
+private fun Fragment.vibrate(duration: Long = 500){
+    val vibrator = requireContext().getSystemService() as? Vibrator
+            vibrator?.vibrate(
+                VibrationEffect.createOneShot(
+                    duration,
+                    VibrationEffect.DEFAULT_AMPLITUDE
+                )
+            )
+        }
+
     private fun pauseTimer() {
         timerStarted = false
         startDecreasingTimer()
-
         binding.textRest.isVisible = true
         binding.pauseButton.isVisible = false
-
         binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
-
         binding.secondaryTimer.isInvisible = false
         binding.secondaryTimer.text = binding.primaryTimer.text
     }
@@ -72,13 +80,10 @@ class TimerFragment : Fragment() {
     private fun resumeTraining() {
         timerStarted = true
         requireActivity().stopService(decreasingTimerServiceIntent)
-
         binding.resumeButton.isVisible = false
         binding.pauseButton.isVisible = true
-
         binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
         binding.primaryTimer.text = binding.secondaryTimer.text
-
         binding.secondaryTimer.isInvisible = true
     }
 
@@ -93,9 +98,10 @@ class TimerFragment : Fragment() {
     }
 
     // TODO: este método será utilizado quando o usuário finalizar o treino
-    @Suppress("unused")
+    //  @Suppress("unused")
     private fun stopTimer() {
-        requireActivity().stopService(increasingTimerServiceIntent)
+
+        requireActivity().stopService(decreasingTimerServiceIntent)
         timerStarted = false
     }
 
@@ -115,6 +121,12 @@ class TimerFragment : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
             decreasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
             if (decreasingTime == 0.0) {
+                stopTimer()
+                binding.primaryTimer.text
+                binding.resumeButton.isVisible = true
+                binding.textRest.isVisible = false
+                vibrate()
+
                 // TODO: parar tempo (chamar métodos "stopService" e possivelmente "unregisterReceiver")
                 // TODO: esconder "Descanso"
                 // TODO: mostrar botão play verde
