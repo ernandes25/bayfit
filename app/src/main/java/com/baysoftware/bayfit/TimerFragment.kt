@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.content.getSystemService
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
@@ -26,7 +25,7 @@ class TimerFragment : Fragment() {
     private lateinit var increasingTimerServiceIntent: Intent
     private lateinit var decreasingTimerServiceIntent: Intent
     private var increasingTime = 0.0
-    private var decreasingTime = 5.0
+    private var decreasingTime = 45.0
     private var timerStarted = true
 
     override fun onCreateView(
@@ -57,21 +56,21 @@ class TimerFragment : Fragment() {
         requireActivity().startService(increasingTimerServiceIntent)
     }
 
-private fun Fragment.vibrate(duration: Long = 500){
-    val vibrator = requireContext().getSystemService() as? Vibrator
-            vibrator?.vibrate(
-                VibrationEffect.createOneShot(
-                    duration,
-                    VibrationEffect.DEFAULT_AMPLITUDE
-                )
+    private fun Fragment.vibrate(duration: Long = 500) {
+        val vibrator = requireContext().getSystemService() as? Vibrator
+        vibrator?.vibrate(
+            VibrationEffect.createOneShot(
+                duration,
+                VibrationEffect.DEFAULT_AMPLITUDE
             )
-        }
+        )
+    }
 
     private fun pauseTimer() {
         timerStarted = false
         startDecreasingTimer()
-        binding.textRest.isVisible = true
-        binding.pauseButton.isVisible = false
+        binding.textRest.isInvisible = false
+        binding.pauseButton.isInvisible = true
         binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
         binding.secondaryTimer.isInvisible = false
         binding.secondaryTimer.text = binding.primaryTimer.text
@@ -80,8 +79,8 @@ private fun Fragment.vibrate(duration: Long = 500){
     private fun resumeTraining() {
         timerStarted = true
         requireActivity().stopService(decreasingTimerServiceIntent)
-        binding.resumeButton.isVisible = false
-        binding.pauseButton.isVisible = true
+        binding.resumeButton.isInvisible = true
+        binding.pauseButton.isInvisible = false
         binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
         binding.primaryTimer.text = binding.secondaryTimer.text
         binding.secondaryTimer.isInvisible = true
@@ -103,6 +102,7 @@ private fun Fragment.vibrate(duration: Long = 500){
 
         requireActivity().stopService(decreasingTimerServiceIntent)
         timerStarted = false
+        // TODO: setar SharedPreferences ongoingSession para false
     }
 
     private val updateIncreasingTime: BroadcastReceiver = object : BroadcastReceiver() {
@@ -123,8 +123,8 @@ private fun Fragment.vibrate(duration: Long = 500){
             if (decreasingTime == 0.0) {
                 stopTimer()
                 binding.primaryTimer.text
-                binding.resumeButton.isVisible = true
-                binding.textRest.isVisible = false
+                binding.resumeButton.isInvisible = false
+                binding.textRest.isInvisible = true
                 vibrate()
 
                 // TODO: parar tempo (chamar métodos "stopService" e possivelmente "unregisterReceiver")

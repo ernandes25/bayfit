@@ -10,7 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+
     private lateinit var binding: FragmentHomeBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,8 +24,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // TODO: checar se existe uma contagem acontecendo
+        // caso não exista, não fazer nada
+        // caso exista, navegar para a tela de contagem
+
         binding.imageButtonIniciar.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentA_to_fragmentB)
+            findNavController().navigate(R.id.action_fragment_home_to_fragment_timer)
+            // TODO: setar SharedPreferences ongoingSession para true
         }
     }
 }

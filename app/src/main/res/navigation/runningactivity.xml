@@ -3,27 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ranningactivity"
-    app:startDestination="@id/fragmentA">
+    app:startDestination="@id/fragment_home">
 
     <fragment
-        android:id="@+id/fragmentA"
+        android:id="@+id/fragment_home"
         android:name="com.baysoftware.bayfit.HomeFragment"
-        android:label=""
+        android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_fragmentA_to_fragmentB"
-            app:destination="@id/fragmentB" />
+            android:id="@+id/action_fragment_home_to_fragment_timer"
+            app:destination="@id/fragment_timer" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragmentB"
+        android:id="@+id/fragment_timer"
         android:name="com.baysoftware.bayfit.TimerFragment"
-        android:label="fragment_b"
+        android:label="fragment_timer"
         tools:layout="@layout/fragment_timer">
-
-        <action
-            android:id="@+id/action_fragmentB_to_fragmentA"
-            app:destination="@id/fragmentA" />
-            </fragment>
+    </fragment>
 
 </navigation>
