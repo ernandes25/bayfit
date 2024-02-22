@@ -30,6 +30,7 @@ class TimerSetterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ok.setOnClickListener {
+
             findNavController().navigate(R.id.fragment_home)
         }
 
