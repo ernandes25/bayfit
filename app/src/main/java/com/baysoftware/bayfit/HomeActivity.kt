@@ -1,8 +1,15 @@
 package com.baysoftware.bayfit
 
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+
+
 import com.baysoftware.bayfit.databinding.ActivityHomeBinding
+
+
+
+
 
 class HomeActivity : AppCompatActivity() {
 

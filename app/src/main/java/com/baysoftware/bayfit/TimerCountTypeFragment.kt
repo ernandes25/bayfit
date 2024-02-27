@@ -51,19 +51,3 @@ class TimerCountTypeFragment : Fragment() {
         }
     }
 
-
-
-//        binding.radioButton1.setOnClickListener {
-//            val selectedButton: Int = binding.radioGroup!!.checkedRadioButtonId
-//            radioButton = binding.radioGroup.findViewById(selectedButton)
-//            Toast.makeText(context, radioButton.text, Toast.LENGTH_SHORT).show()
-//            binding.buttonOkcountType.setOnClickListener {
-//                findNavController().navigate(R.id.fragment_home)
-//            }
-
-//        binding.radioButton2.setOnClickListener {
-//            val selectedButton: Int = binding.radioGroup!!.checkedRadioButtonId
-//            radioButton = binding.radioGroup.findViewById(selectedButton)
-//            Toast.makeText(context, radioButton.text, Toast.LENGTH_SHORT).show()
-//            binding.buttonOkcountType.setOnClickListener {
-//                findNavController().navigate(R.id.fragment_timer_setter)
