@@ -60,20 +60,16 @@ class TimerFragment : Fragment() {
         binding.pauseButton.setOnClickListener { pauseTimer() }
         binding.resumeButton.setOnClickListener { resumeTraining() }
 
-
         requireActivity().startService(increasingTimerServiceIntent)
-
     }
 
 private fun stopTrainingSession(){
-
     requireActivity().stopService(increasingTimerServiceIntent)
     requireActivity().stopService(decreasingTimerServiceIntent)
     requireActivity().unregisterReceiver(updateIncreasingTime)
 
     val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
     findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
-
 }
 
     private fun vibrate(duration: Long = 500) {

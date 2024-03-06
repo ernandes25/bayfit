@@ -4,22 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.NumberPicker
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentTimerSetterBinding
 import kotlinx.coroutines.launch
-import java.util.prefs.Preferences
 
 class TimerSetterFragment : Fragment() {
-    private lateinit var binding: FragmentTimerSetterBinding
-    private lateinit var userManager: UserManager
-//    private lateinit var numberPicker: NumberPicker
 
+    private lateinit var binding: FragmentTimerSetterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,65 +26,38 @@ class TimerSetterFragment : Fragment() {
             false
         )
         return binding.root
-
     }
-    private lateinit var dataStore: DataStore<Preferences>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userManager = UserManager(requireContext())
 
-        
-        binding.numberPickerMin.setOnValueChangedListener { picker, oldVal, newVal ->
-            setOnfindNavController().navigate(R.id.) "Selected Value : $newVal"}
-        
+        setupNumberPicker()
+
         binding.ok.setOnClickListener {
             saveDataUser()
             findNavController().navigate(R.id.fragment_home)
-            readDataUser()
-            return@setOnClickListener
-      }
- }
+        }
+    }
 
-//    private fun setupNumberPicker() {
-//        val numberPicker = binding.numberPickerMin
-//
-//        numberPicker.wrapSelectorWheel = true
-//        numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-//            val text = "Changed from $oldVal to $newVal"
-//            Toast.makeText(requireActivity(), text, Toast.LENGTH_SHORT).show()
-//
-//        }
-//
-//    }
+    private fun setupNumberPicker() {
+        // TODO: consertar erro de não carregar os valores do usuário após algumas tentativas
+        lifecycleScope.launch {
+            val user = UserManager.getInstance().readDataUser(requireContext())
+            binding.numberPickerMin.value = user.minute
+            binding.numberPickerSec.value = user.second
+        }
+    }
 
     private fun saveDataUser() {
         val vlrDoMinutoDoPicker = binding.numberPickerMin.value
         val vlrDoSegundoDoPicker = binding.numberPickerSec.value
 
-
         lifecycleScope.launch {
-            userManager.saveDataUser(
+            UserManager.getInstance().saveDataUser(
+                requireContext(),
                 minute = vlrDoMinutoDoPicker,
                 second = vlrDoSegundoDoPicker
             )
         }
     }
-
-
-    private fun readDataUser() {
-        lifecycleScope.launch {
-            val user = userManager.readDataUser()
-
-            binding.numberPickerMin.value
-            binding.numberPickerSec.value
-
-            println("minute:${user.minute}, second: ${user.second}")
-
-        }
-    }
-
 }
-
-
-
