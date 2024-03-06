@@ -42,8 +42,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setter"
             app:layout_constraintVertical_bias="0.0"
-            app:maxValue="@{60}"
-            app:minValue="@{0}" />
+            app:maxValue="@{59}"
+            app:minValue="@{0}"/>
 
         <NumberPicker
             android:id="@+id/numberPickerSec"
@@ -56,7 +56,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setter"
             app:layout_constraintVertical_bias="0.0"
-            app:maxValue="@{60}"
+            app:maxValue="@{59}"
             app:minValue="@{0}" />
 
         <TextView

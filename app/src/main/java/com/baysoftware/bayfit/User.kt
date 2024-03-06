@@ -1,6 +1,6 @@
 package com.baysoftware.bayfit
 
 data class User(
-    val minute: Comparable<*>,
+    val minute: Int,
     val second: Int
 )

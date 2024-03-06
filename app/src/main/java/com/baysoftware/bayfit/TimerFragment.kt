@@ -26,9 +26,10 @@ class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var increasingTimerServiceIntent: Intent
     private lateinit var decreasingTimerServiceIntent: Intent
+//  private lateinit var userManager: UserManager //feito em 27/02
 
     private var increasingTime = 0.00
-    private var decreasingTime = 4.00
+    private var decreasingTime = 4.0
     private var timerStarted = true
 
     override fun onCreateView(
