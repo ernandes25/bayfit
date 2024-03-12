@@ -1,6 +1,6 @@
 package com.baysoftware.bayfit
 
-data class User(
+data class TimerConfiguration(
     val minute: Int,
     val second: Int
 )

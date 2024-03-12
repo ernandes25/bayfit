@@ -42,7 +42,7 @@ class TimerSetterFragment : Fragment() {
     private fun setupNumberPicker() {
         //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativs
         lifecycleScope.launch {
-            val user = UserManager.getInstance().readDataUser(requireContext())
+            val user = UserManager.getInstance().readTimerConfiguration(requireContext())
             binding.numberPickerMin.value = user.minute
             binding.numberPickerSec.value = user.second
         }
@@ -53,7 +53,7 @@ class TimerSetterFragment : Fragment() {
         val vlrDoSegundoDoPicker = binding.numberPickerSec.value
 
         lifecycleScope.launch {
-            UserManager.getInstance().saveDataUser(
+            UserManager.getInstance().saveTimerConfiguration(
                 requireContext(),
                 minute = vlrDoMinutoDoPicker,
                 second = vlrDoSegundoDoPicker
