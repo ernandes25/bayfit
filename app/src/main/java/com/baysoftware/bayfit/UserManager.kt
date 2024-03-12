@@ -8,13 +8,13 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
-class UserManager private constructor() {
+class UserManager private  constructor() {
 
     private val Context.dataTimer: DataStore<Preferences> by preferencesDataStore("settings")
 
     companion object {
         private val MINUTE_KEY = intPreferencesKey("TIME_MINUTE")
-        private val SECOND_KEY = intPreferencesKey("TIME_SECOND")
+        val SECOND_KEY = intPreferencesKey("TIME_SECOND") //11/03/2024-transformei em public
 
         @Volatile
         private var instance: UserManager? = null
@@ -24,14 +24,14 @@ class UserManager private constructor() {
         }
     }
 
-     suspend fun saveDataUser(context: Context, minute: Int, second: Int) {
+    suspend fun saveDataUser(context: Context, minute: Int, second: Int) {
         context.dataTimer.edit {
             it[MINUTE_KEY] = minute
             it[SECOND_KEY] = second
         }
     }
 
-    suspend fun readDataUser(context: Context): User {
+    suspend fun readDataUser(context: Context ): User {
         val prefs = context.dataTimer.data.first()
         return User(
             minute = prefs[MINUTE_KEY] ?: 0,

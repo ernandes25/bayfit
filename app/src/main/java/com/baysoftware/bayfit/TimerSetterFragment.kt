@@ -12,8 +12,8 @@ import com.baysoftware.bayfit.databinding.FragmentTimerSetterBinding
 import kotlinx.coroutines.launch
 
 class TimerSetterFragment : Fragment() {
-
     private lateinit var binding: FragmentTimerSetterBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +40,7 @@ class TimerSetterFragment : Fragment() {
     }
 
     private fun setupNumberPicker() {
-        // TODO: consertar erro de não carregar os valores do usuário após algumas tentativas
+        //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativs
         lifecycleScope.launch {
             val user = UserManager.getInstance().readDataUser(requireContext())
             binding.numberPickerMin.value = user.minute
