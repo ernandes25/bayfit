@@ -36,19 +36,33 @@ class TimerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
         increasingTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
         increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
 
         lifecycleScope.launch {
-            // TODO: pegar configuração de tempo antes de iniciar o serviço para saber se o tempo é crescente ou decrescente
+            //TODO: pegar configuração de tempo antes de iniciar o serviço para saber se o tempo é crescente ou decrescente
+
+//            UserManager.getInstance().saveTimerMode(requireContext())
+//            UserManager.getInstance().readTimerMode(requireContext())
+
+
+
+        /*    val selectRadioButton1 = UserManager.getInstance()
+                .saveTimerMode(mode = UserManager.TimerMode.FREE, context = requireContext())
+            val selectRadioButton2 = UserManager.getInstance()
+                .saveTimerMode(mode = UserManager.TimerMode.PREDEFINED, context = requireContext())*/
+
 
             val timerConfiguration = UserManager.getInstance().readTimerConfiguration(requireContext())
             val decreasingTime = timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
-            decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
-        }
 
+
+            decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
+
+        }
         registerReceiver(
             requireContext(),
             updateIncreasingTime,
@@ -71,6 +85,17 @@ class TimerFragment : Fragment() {
         requireActivity().startService(increasingTimerServiceIntent)
     }
 
+/*    private fun ??????() {
+        //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
+
+        lifecycleScope.launch {
+            val user = UserManager.getInstance().readTimerMode(requireContext())
+            UserManager.getInstance().readTimerMode(requireContext())
+            binding.pegar contexto FRAGMENT_TIMER_COUNT_TYPE
+        }
+    }*/
+
+
     private fun stopTrainingSession() {
 
         requireActivity().stopService(increasingTimerServiceIntent)
@@ -79,7 +104,6 @@ class TimerFragment : Fragment() {
 
         val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
         findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
-
     }
 
     private fun vibrate(duration: Long = 500) {
@@ -94,7 +118,6 @@ class TimerFragment : Fragment() {
 
     private fun pauseTimer() {
         timerStarted = false
-
         startDecreasingTimer()
         binding.textRest.isInvisible = false
         binding.pauseButton.isInvisible = true
@@ -147,12 +170,14 @@ class TimerFragment : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
             val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
 
+
             if (time == 0.00) {
                 stopTimer()
                 binding.primaryTimer.text
                 binding.resumeButton.isInvisible = false
                 binding.textRest.isInvisible = true
                 vibrate()
+
             }
             binding.primaryTimer.text = getTimeStringFromDouble(time)
         }

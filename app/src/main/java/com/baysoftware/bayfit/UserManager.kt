@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
-class UserManager private  constructor() {
+class UserManager private constructor() {
 
     private val Context.dataTimer: DataStore<Preferences> by preferencesDataStore("settings")
 
@@ -27,7 +27,7 @@ class UserManager private  constructor() {
         }
     }
 
-    suspend fun saveTimerConfiguration(context: Context, minute: Int, second: Int) {
+    suspend fun saveDataUser(context: Context, minute: Int, second: Int) {
         context.dataTimer.edit {
             it[MINUTE_KEY] = minute
             it[SECOND_KEY] = second
@@ -53,7 +53,7 @@ class UserManager private  constructor() {
         return prefs[TIMER_MODE] ?: ""
     }
 
-    enum class TimerMode(val stringValue: String) { // TODO: ler sobre enum class em kotlin
+    enum class TimerMode(val stringValue: String) {
         PREDEFINED("PREDEFINED"),
         FREE("FREE")
     }
