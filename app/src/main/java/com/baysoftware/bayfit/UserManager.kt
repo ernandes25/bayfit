@@ -48,13 +48,25 @@ class UserManager private constructor() {
         }
     }
 
-    suspend fun readTimerMode(context: Context): String {
+//    suspend fun readTimerMode(context: Context): TimerMode {
+//        val prefs = context.dataTimer.data.first()
+//        return prefs[TIMER_MODE].?: ""
+//    }
+
+    suspend fun readTimerMode(context: Context): TimerMode {
         val prefs = context.dataTimer.data.first()
-        return prefs[TIMER_MODE] ?: ""
+        val timerModeMode = prefs[TIMER_MODE]?.let { TimerMode.fromString(it) } ?: TimerMode.PREDEFINED
+        return timerModeMode
     }
 
     enum class TimerMode(val stringValue: String) {
         PREDEFINED("PREDEFINED"),
-        FREE("FREE")
+        FREE("FREE");
+
+        companion object {
+            fun fromString(value: String) = entries.first { it.stringValue == value }
+        }
     }
+
+
 }

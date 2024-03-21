@@ -27,10 +27,11 @@ class TimerFragment : Fragment() {
 
     private lateinit var binding: FragmentTimerBinding
     private lateinit var increasingTimerServiceIntent: Intent
-    private lateinit var decreasingTimerServiceIntent: Intent
+    private lateinit var restTimerServiceIntent: Intent
 
     private var increasingTime = 0.00
 
+        private var increasingRestTime = 0.00 // Eu-19/03
     private var timerStarted = true
 
     override fun onCreateView(
@@ -40,29 +41,26 @@ class TimerFragment : Fragment() {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
         increasingTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
         increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
-        decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
+        restTimerServiceIntent =Intent(requireContext(), DecreasingTimerService::class.java)
 
         lifecycleScope.launch {
             //TODO: pegar configuração de tempo antes de iniciar o serviço para saber se o tempo é crescente ou decrescente
 
-//            UserManager.getInstance().saveTimerMode(requireContext())
-//            UserManager.getInstance().readTimerMode(requireContext())
+            val timerConfiguration =
+                UserManager.getInstance().readTimerConfiguration(requireContext())
+            val restTime =
+                timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
+
+    //      restTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
+            restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, restTime)
 
 
-
-        /*    val selectRadioButton1 = UserManager.getInstance()
-                .saveTimerMode(mode = UserManager.TimerMode.FREE, context = requireContext())
-            val selectRadioButton2 = UserManager.getInstance()
-                .saveTimerMode(mode = UserManager.TimerMode.PREDEFINED, context = requireContext())*/
-
-
-            val timerConfiguration = UserManager.getInstance().readTimerConfiguration(requireContext())
-            val decreasingTime = timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
-
-
-            decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
-
+            //       val timerMode = UserManager.getInstance().readTimerMode(context = requireContext())
+//            if (timerMode == UserManager.TimerMode.FREE) {
+//
         }
+
+
         registerReceiver(
             requireContext(),
             updateIncreasingTime,
@@ -85,22 +83,14 @@ class TimerFragment : Fragment() {
         requireActivity().startService(increasingTimerServiceIntent)
     }
 
-/*    private fun ??????() {
-        //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
-
-        lifecycleScope.launch {
-            val user = UserManager.getInstance().readTimerMode(requireContext())
-            UserManager.getInstance().readTimerMode(requireContext())
-            binding.pegar contexto FRAGMENT_TIMER_COUNT_TYPE
-        }
-    }*/
-
+    //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
 
     private fun stopTrainingSession() {
 
         requireActivity().stopService(increasingTimerServiceIntent)
-        requireActivity().stopService(decreasingTimerServiceIntent)
+        requireActivity().stopService(restTimerServiceIntent)
         requireActivity().unregisterReceiver(updateIncreasingTime)
+
 
         val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
         findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
@@ -117,18 +107,31 @@ class TimerFragment : Fragment() {
     }
 
     private fun pauseTimer() {
-        timerStarted = false
-        startDecreasingTimer()
-        binding.textRest.isInvisible = false
-        binding.pauseButton.isInvisible = true
-        binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
-        binding.secondaryTimer.isInvisible = false
-        binding.secondaryTimer.text = binding.primaryTimer.text
+
+        if (  timerStarted == false) {
+            startRestTimer()
+            binding.textRest.isInvisible = false
+            binding.pauseButton.isInvisible = true
+            binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
+            binding.secondaryTimer.isInvisible = false
+            binding.secondaryTimer.text = binding.primaryTimer.text
+        }else{
+            startRestTimerUp()
+            stopTimer()
+         // binding.textRest.isInvisible = false
+            binding.pauseButton.isInvisible = false
+            binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
+            binding.secondaryTimer.isInvisible = false
+            binding.secondaryTimer.text = binding.primaryTimer.text
+
+
+        }
+
     }
 
     private fun resumeTraining() {
         timerStarted = true
-        requireActivity().stopService(decreasingTimerServiceIntent)
+        requireActivity().stopService(restTimerServiceIntent)
         binding.resumeButton.isInvisible = true
         binding.pauseButton.isInvisible = false
         binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
@@ -136,21 +139,32 @@ class TimerFragment : Fragment() {
         binding.secondaryTimer.isInvisible = true
     }
 
-    private fun startDecreasingTimer() {
+    private fun startRestTimer() {
         registerReceiver(
             requireContext(),
-            updateDecreasingTime,
+            updateRestTimer,
             IntentFilter(DecreasingTimerService.TIMER_UPDATE),
             RECEIVER_NOT_EXPORTED
         )
-        requireActivity().startService(decreasingTimerServiceIntent)
+        requireActivity().startService(restTimerServiceIntent)
     }
+
+    private fun startRestTimerUp() {
+        registerReceiver(
+            requireContext(),
+            updateRestTimer,
+            IntentFilter(IncreasingTimerService.TIMER_UPDATE),
+            RECEIVER_NOT_EXPORTED
+        )
+        requireActivity().startService(restTimerServiceIntent)
+    }
+
 
     // TODO: este método será utilizado quando o usuário finalizar o treino
     //  @Suppress("unused")
     private fun stopTimer() {
 
-        requireActivity().stopService(decreasingTimerServiceIntent)
+        requireActivity().stopService(restTimerServiceIntent)
         timerStarted = false
     }
 
@@ -166,10 +180,10 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private val updateDecreasingTime: BroadcastReceiver = object : BroadcastReceiver() {
+
+    private val updateRestTimer: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-
 
             if (time == 0.00) {
                 stopTimer()

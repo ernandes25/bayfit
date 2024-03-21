@@ -9,9 +9,7 @@ class DecreasingTimerService : TimerService() {
 
     override fun getTimerIntent(): Intent = Intent(TIMER_UPDATE)
 
-//    private fun decreasingTime(): DataStore = UserManager.SECOND_KEY //11/03/2024
-
-    companion object {
+    companion object{
         const val TIMER_UPDATE = "decreasingTimerUpdate"
     }
 }

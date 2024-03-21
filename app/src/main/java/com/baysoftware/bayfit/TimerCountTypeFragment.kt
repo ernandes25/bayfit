@@ -36,23 +36,33 @@ class TimerCountTypeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.radioButton1.setOnClickListener {
 
-            lifecycleScope.launch {
-               val saveTimerMode = UserManager.getInstance().readTimerMode(requireContext())
-               return@launch
-            }
-
-
-
-
             val selectedButton: Int = binding.radioGroup.checkedRadioButtonId
             radioButton = binding.radioGroup.findViewById(selectedButton)
             Toast.makeText(context, radioButton.text, Toast.LENGTH_SHORT).show()
-            binding.buttonOkcountType.setOnClickListener {
-                findNavController().navigate(R.id.fragment_home)
-            }
         }
 
+        binding.buttonOkcountType.setOnClickListener {
 
+            lifecycleScope.launch {
+                val botaoSelecionado: UserManager.TimerMode
+
+                if (binding.radioButton1.isSelected) {
+
+                    botaoSelecionado = UserManager.TimerMode.FREE
+                    UserManager.getInstance().saveTimerMode(requireContext(), botaoSelecionado)
+
+                } else if (binding.radioButton2.isSelected) {
+
+                    botaoSelecionado = UserManager.TimerMode.PREDEFINED
+                    UserManager.getInstance().saveTimerMode(requireContext(), botaoSelecionado)
+                } else {
+                    //TODO: Mostrar Toast. Selecione uma opção
+                }
+
+
+            }
+            findNavController().navigate(R.id.fragment_home)
+        }
 
 
         binding.radioButton2.setOnClickListener {
