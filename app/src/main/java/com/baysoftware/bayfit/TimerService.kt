@@ -3,7 +3,7 @@ package com.baysoftware.bayfit
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import java.util.*
+import java.util.Timer
 import java.util.TimerTask
 
 abstract class TimerService : Service() {

@@ -27,7 +27,7 @@ class UserManager private constructor() {
         }
     }
 
-    suspend fun saveDataUser(context: Context, minute: Int, second: Int) {
+    suspend fun saveTimerConfiguration(context: Context, minute: Int, second: Int) {
         context.dataTimer.edit {
             it[MINUTE_KEY] = minute
             it[SECOND_KEY] = second
@@ -48,18 +48,13 @@ class UserManager private constructor() {
         }
     }
 
-//    suspend fun readTimerMode(context: Context): TimerMode {
-//        val prefs = context.dataTimer.data.first()
-//        return prefs[TIMER_MODE].?: ""
-//    }
-
     suspend fun readTimerMode(context: Context): TimerMode {
         val prefs = context.dataTimer.data.first()
-        val timerModeMode = prefs[TIMER_MODE]?.let { TimerMode.fromString(it) } ?: TimerMode.PREDEFINED
-        return timerModeMode
+        return prefs[TIMER_MODE]?.let { TimerMode.fromString(it) } ?: TimerMode.PREDEFINED
     }
 
     enum class TimerMode(val stringValue: String) {
+        UNDEFINED("UNDEFINED"),
         PREDEFINED("PREDEFINED"),
         FREE("FREE");
 
