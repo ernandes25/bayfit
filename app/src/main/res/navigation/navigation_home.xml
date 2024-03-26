@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_home"
+    app:startDestination="@id/fragment_home">
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="com.baysoftware.bayfit.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_settings"
+            app:destination="@id/fragment_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_settings"
+        android:name="com.baysoftware.bayfit.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_fragment_settings_to_fragment_timer_count_type"
+            app:destination="@id/fragment_timer_count_type" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_timer_count_type"
+        android:name="com.baysoftware.bayfit.TimerCountTypeFragment"
+        android:label="fragment_timer_count_type"
+        tools:layout="@layout/fragment_timer_count_type">
+
+        <action
+            android:id="@+id/action_fragment_timer_count_type_to_fragment_timer_setter"
+            app:destination="@id/fragment_timer_setter" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_timer_setter"
+        android:name="com.baysoftware.bayfit.TimerSetterFragment"
+        android:label="fragment_timer_setter"
+        tools:layout="@layout/fragment_timer_setter">
+    </fragment>
+
+</navigation>

@@ -1,6 +1,7 @@
 package com.baysoftware.bayfit
 
 import android.content.Intent
+import androidx.datastore.core.DataStore
 
 class DecreasingTimerService : TimerService() {
 
@@ -8,7 +9,7 @@ class DecreasingTimerService : TimerService() {
 
     override fun getTimerIntent(): Intent = Intent(TIMER_UPDATE)
 
-    companion object {
+    companion object{
         const val TIMER_UPDATE = "decreasingTimerUpdate"
     }
 }

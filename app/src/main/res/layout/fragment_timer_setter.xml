@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".FragmentTimerSetter">
+
+        <TextView
+            android:id="@+id/setter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
+            android:text="@string/time_rest_setting"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_timer_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52" />
+
+        <NumberPicker
+            android:id="@+id/numberPickerMin"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_top_timeTV2"
+            android:layout_marginStart="@dimen/margin_top_timeTV2"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:theme="@style/my_time_picker_style"
+            app:layout_constraintBottom_toTopOf="@+id/textClockMin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setter"
+            app:layout_constraintVertical_bias="0.0"
+            app:maxValue="@{59}"
+            app:minValue="@{0}"/>
+
+        <NumberPicker
+            android:id="@+id/numberPickerSec"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_top_timeTV2"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_top_timeTV2"
+            android:theme="@style/my_time_picker_style"
+            app:layout_constraintBottom_toTopOf="@+id/textClockSeg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setter"
+            app:layout_constraintVertical_bias="0.0"
+            app:maxValue="@{59}"
+            app:minValue="@{0}" />
+
+        <TextView
+            android:id="@+id/textClockMin"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/minutes"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_secondary_timer"
+            app:layout_constraintBottom_toTopOf="@+id/ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.26"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textClockSeg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/seconds"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_secondary_timer"
+            app:layout_constraintBottom_toTopOf="@+id/ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/background_button"
+            android:text="@string/button_ok"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_secondary_timer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

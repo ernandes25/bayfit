@@ -14,10 +14,12 @@
 
     <!-- Buttons -->
     <dimen name="button_margin">16dp</dimen>
+    <dimen name="button_height_small">30dp</dimen>
     <dimen name="button_height">48dp</dimen>
 
     <!-- Misc -->
     <dimen name="text_size_timer_small">12sp</dimen>
     <dimen name="padding_timeTV">30dp</dimen>
     <dimen name="margin_top_timeTV2">50dp</dimen>
+    <dimen name="margin_point_number_picker">38dp</dimen>
  </resources>

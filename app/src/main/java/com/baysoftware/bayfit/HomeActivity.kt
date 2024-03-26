@@ -2,15 +2,15 @@ package com.baysoftware.bayfit
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.baysoftware.bayfit.databinding.ActivityMainBinding
+import com.baysoftware.bayfit.databinding.ActivityHomeBinding
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 }

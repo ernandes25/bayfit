@@ -8,5 +8,26 @@
     <string name="fragment_a">Fragment A</string>
     <string name="fragment_b">Fragment B</string>
     <string name="cronometer_initial_value">00:00:00</string>
+    <string name="cronometer_rest_setter">00:00</string>
     <string name="text_rest">Descanso…</string>
-   </resources>
+    <string name="time_rest_setting">Tempo de descanso</string>
+    <string name="time_series_setting">Tempo de Série</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_ok">Ok</string>
+    <string name="minutes">MIN</string>
+    <string name="seconds">SEG</string>
+    <string name="free">Livre</string>
+    <string name="time">Tempo</string>
+    <string name="points_number_picker">:</string>
+    <string name="title_activity_main">HomeActivity</string>
+    <string name="congratulations">PARABÉNS</string>
+    <string name="time_total">TEMPO TOTAL</string>
+    <string name="time_rest">TEMPO DE DESCANSO</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+</resources>
