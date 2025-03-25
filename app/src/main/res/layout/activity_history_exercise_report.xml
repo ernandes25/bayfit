@@ -29,7 +29,7 @@
                 android:textSize="@dimen/text_size_timer_small"
                 app:layout_constraintBottom_toTopOf="@+id/endTraining"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/duration_text" />
+                app:layout_constraintTop_toBottomOf="@+id/duration_text"/>
 
             <TextView
                 android:id="@+id/currentDate"
