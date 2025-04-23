@@ -23,3 +23,4 @@ fun ExerciseSessionEntity.toModel() =
         endTime = this.endTime,
         restTime = this.restTime
     )
+

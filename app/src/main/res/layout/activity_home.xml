@@ -6,7 +6,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp">
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerConstraintLayout"
@@ -48,7 +48,7 @@
                 android:id="@+id/button_config"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/background_button"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/button_margin"
@@ -56,7 +56,6 @@
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView" />
 
@@ -76,7 +75,6 @@
                 app:layout_constraintTop_toBottomOf="@id/button_config" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 
 </layout>

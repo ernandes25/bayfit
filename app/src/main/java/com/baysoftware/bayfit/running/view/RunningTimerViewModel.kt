@@ -2,6 +2,7 @@ package com.baysoftware.bayfit.running.view
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -10,15 +11,13 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.baysoftware.bayfit.db.ExerciseDatabase
 import com.baysoftware.bayfit.db.ExerciseRepository
 import com.baysoftware.bayfit.history.model.ExerciseSessionModel
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class RunningTimerViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
 
     companion object {
-        /**
-         * https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories
-         */
         fun provideFactory(
             application: Application,
             owner: SavedStateRegistryOwner,
@@ -42,16 +41,19 @@ class RunningTimerViewModel(private val exerciseRepository: ExerciseRepository) 
 
     fun startSession() {
         startTime = System.currentTimeMillis()
+        Log.d("RunningTimerViewModel", "Session started at $startTime")
     }
 
-    /**
-     * Chama o repositório, que irá chamar o DAO para inserir uma sessão de exercícios no banco de dados.
-     */
     fun saveSession(endTime: Long, totalRestTime: Long) {
         viewModelScope.launch {
+            val duration = endTime - startTime
+            Log.d("RunningTimerViewModel", "Session ended at $endTime")
+            Log.d("RunningTimerViewModel", "Duration: ${(duration / 1000.0).getTimeStringFromDouble()}")
+            Log.d("RunningTimerViewModel", "Total Rest Time: ${(totalRestTime / 1000.0).getTimeStringFromDouble()}")
+
             val exerciseSession = ExerciseSessionModel(
                 date = LocalDate.now().toString(),
-                duration = endTime - startTime,
+                duration = duration,
                 startTime = startTime,
                 endTime = endTime,
                 restTime = totalRestTime

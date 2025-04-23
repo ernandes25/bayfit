@@ -23,6 +23,6 @@ class RunningResultActivity : AppCompatActivity() {
     private fun setupViews() {
         binding.buttonReturn.setOnClickListener { finish() }
         binding.timeEnd.text = intent.getStringExtra(END_TIME)
-        binding.restEnd.text = intent?.getDoubleExtra(END_REST, 0.0)?.getTimeStringFromDouble()
+        binding.restEnd.text = intent.getDoubleExtra(END_REST, 0.0).getTimeStringFromDouble()
     }
 }

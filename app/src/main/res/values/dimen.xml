@@ -2,8 +2,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Font sizes -->
-    <dimen name="text_size_primary_timer">40sp</dimen>
+    <dimen name="text_size_timer_small">12sp</dimen>
+    <dimen name="text_size_rest_timer">16sp</dimen>
+    <dimen name="text_size_timer_list">18sp</dimen>
     <dimen name="text_size_secondary_timer">20sp</dimen>
+    <dimen name="text_size_total_timer">28sp</dimen>
+    <dimen name="text_size_primary_timer">40sp</dimen>
 
     <!-- Margins -->
     <dimen name="margin_extra_small">4dp</dimen>
@@ -19,8 +23,6 @@
     <dimen name="button_height">56dp</dimen>
 
     <!-- Misc -->
-    <dimen name="text_size_timer_small">12sp</dimen>
-    <dimen name="text_size_timer_list">18sp</dimen>
 
     <dimen name="padding_timeTV">30dp</dimen>
     <dimen name="margin_top_timeTV2">50dp</dimen>
