@@ -12,14 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
 import com.baysoftware.bayfit.home.composable.TimerTypeOption
-import com.baysoftware.bayfit.databinding.ActivitySettingsTimerCountTypeBinding
-import com.baysoftware.bayfit.history.view.HistoryListActivity
 import com.baysoftware.bayfit.home.composable.ActivitySettingsTimerCountTypeScreen
-import com.baysoftware.bayfit.home.composable.SettingsScreen
 import com.baysoftware.bayfit.preferences.UserManager
-import com.baysoftware.bayfit.running.view.RunningTimerActivity
 import kotlinx.coroutines.launch
-
 
 
 class SettingsTimerCountTypeActivity : AppCompatActivity() {
