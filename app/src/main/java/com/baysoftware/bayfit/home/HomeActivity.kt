@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.home
 
 import android.content.Intent
 import android.os.Bundle

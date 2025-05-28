@@ -16,7 +16,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".home.HomeActivity"
             android:exported="true"
             android:taskAffinity="@string/common_open_on_phone">
             <intent-filter>
