@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -34,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baysoftware.bayfit.R
+import com.baysoftware.bayfit.settings.viewmodel.SettingsTimerCountTypeIntent
 import com.baysoftware.bayfit.settings.viewmodel.SettingsTimerCountTypeViewState
 import com.baysoftware.bayfit.settings.viewmodel.TimerTypeOption
 import com.baysoftware.bayfit.ui.theme.Archivo
@@ -41,8 +43,7 @@ import com.baysoftware.bayfit.ui.theme.Archivo
 @Composable
 fun SettingsTimerCountTypeScreen(
     viewState: SettingsTimerCountTypeViewState, // Define o estado da tela
-    onTypeSelected: (TimerTypeOption) -> Unit, // Callback para atualizar o estado
-    onButtonOk: () -> Unit,
+    onIntent: (SettingsTimerCountTypeIntent) -> Unit, // Callback para enviar intents ao ViewModel
 ) {
     Column(
         modifier = Modifier
@@ -69,7 +70,7 @@ fun SettingsTimerCountTypeScreen(
                 modifier = Modifier
                     .selectable(
                         selected = (viewState.selectedOption == TimerTypeOption.FREE),
-                        onClick = { onTypeSelected(TimerTypeOption.FREE) }, // Chama o callback para que o estado seja atualizado externamente
+                        onClick = { onIntent(SettingsTimerCountTypeIntent.SetTimerCountType(TimerTypeOption.FREE)) }, // Chama o callback para que o estado seja atualizado externamente
                         role = Role.RadioButton
                     )
                     .padding(vertical = 8.dp),
@@ -99,7 +100,7 @@ fun SettingsTimerCountTypeScreen(
                 modifier = Modifier
                     .selectable(
                         selected = (viewState.selectedOption == TimerTypeOption.TIME),
-                        onClick = { onTypeSelected(TimerTypeOption.TIME) }, // Chama o callback para que o estado seja atualizado externamente
+                        onClick = { onIntent(SettingsTimerCountTypeIntent.SetTimerCountType(TimerTypeOption.TIME)) }, // Chama o callback para que o estado seja atualizado externamente
                         role = Role.RadioButton
                     )
                     .padding(vertical = 8.dp),
@@ -123,9 +124,10 @@ fun SettingsTimerCountTypeScreen(
             }
         }
 
+        val context = LocalContext.current
         // Botão "OK"
         Button(
-            onClick = onButtonOk, // Mantém o callback original para o botão OK
+            onClick = { onIntent(SettingsTimerCountTypeIntent.SaveTimerConfiguration(context)) }, // Mantém o callback original para o botão OK
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
@@ -165,8 +167,7 @@ class SettingsTimerCountTypeScreenPreviews {
             viewState = SettingsTimerCountTypeViewState(
                 selectedOption = TimerTypeOption.FREE
             ), // Exemplo com "LIVRE" selecionado
-            onButtonOk = {},
-            onTypeSelected = {}
+            onIntent = {}
         )
     }
 
@@ -177,8 +178,7 @@ class SettingsTimerCountTypeScreenPreviews {
             viewState = SettingsTimerCountTypeViewState(
                 selectedOption = TimerTypeOption.TIME
             ), // Exemplo com "LIVRE" selecionado
-            onButtonOk = {},
-            onTypeSelected = {}
+            onIntent = {}
         )
     }
 
@@ -189,8 +189,7 @@ class SettingsTimerCountTypeScreenPreviews {
             viewState = SettingsTimerCountTypeViewState(
                 selectedOption = TimerTypeOption.NONE
             ), // Exemplo com "LIVRE" selecionado
-            onButtonOk = {},
-            onTypeSelected = {}
+            onIntent = {}
         )
     }
 
@@ -201,8 +200,7 @@ class SettingsTimerCountTypeScreenPreviews {
             viewState = SettingsTimerCountTypeViewState(
                 selectedOption = TimerTypeOption.NONE
             ), // Exemplo com "LIVRE" selecionado
-            onButtonOk = {},
-            onTypeSelected = {}
+            onIntent = {}
         )
     }
 
@@ -213,8 +211,7 @@ class SettingsTimerCountTypeScreenPreviews {
             viewState = SettingsTimerCountTypeViewState(
                 selectedOption = TimerTypeOption.NONE
             ), // Exemplo com "LIVRE" selecionado
-            onButtonOk = {},
-            onTypeSelected = {}
+            onIntent = {}
         )
     }
 }

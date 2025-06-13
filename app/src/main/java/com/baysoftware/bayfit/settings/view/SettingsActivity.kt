@@ -6,8 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.baysoftware.bayfit.home.composable.SettingsScreen
 
-
-
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,9 +13,9 @@ class SettingsActivity : AppCompatActivity() {
         setContent {
             SettingsScreen(
                 onButtonRestTime = {
-                    val intent =
-                        Intent(this, SettingsTimerCountTypeActivity::class.java)
+                    val intent = Intent(this, SettingsTimerCountTypeActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             )
         }

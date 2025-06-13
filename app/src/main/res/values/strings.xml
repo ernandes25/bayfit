@@ -41,4 +41,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!-- Settings -->
+    <string name="time_setting_error_message">Por favor, selecione uma opção</string>
+    <string name="time_setting_saved_message">Configuração salva!</string>
+
 </resources>
